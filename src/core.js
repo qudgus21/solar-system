@@ -1,11 +1,15 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
 const factor = {
   canvas,
   scene,
   renderer,
   camera,
+  sounds,
+  gltfLoader,
+  textureLoader,
 };
 
 const initialize = () => {
@@ -37,12 +41,13 @@ const initialize = () => {
       1000
     );
     camera.position.y = 1.5;
-    camera.position.z = 30;
+    camera.position.z = 60;
+    // camera.position.z = 10;
     factor.camera = camera;
   };
 
   const initializeLight = () => {
-    const ambientLight = new THREE.AmbientLight("white", 0.5);
+    const ambientLight = new THREE.AmbientLight("white", 1);
     scene.add(ambientLight);
   };
 
@@ -59,6 +64,15 @@ const initialize = () => {
     window.addEventListener("resize", setSize);
   };
 
+  const initializeSound = () => {
+    const fireSound = new Audio();
+    fireSound.src = "/sounds/fire.mp3";
+
+    factor.sounds = {
+      fire: fireSound,
+    };
+  };
+
   const setSize = () => {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
@@ -66,19 +80,19 @@ const initialize = () => {
     renderer.render(scene, camera);
   };
 
-  const draw = () => {
-    renderer.render(scene, camera);
-    renderer.setAnimationLoop(draw);
+  const initializeLoader = () => {
+    factor.gltfLoader = new GLTFLoader();
+    factor.textureLoader = new THREE.TextureLoader();
   };
 
   initializeHelper();
+  initializeSound();
   initializeCamera();
   initializeLight();
   initializeControl();
   initializeRenderer();
+  initializeLoader();
   initializeEvents();
-
-  draw();
 };
 
 initialize();
@@ -86,4 +100,7 @@ initialize();
 export const canvas = factor.canvas;
 export const scene = factor.scene;
 export const renderer = factor.renderer;
-export const camera = factor.canvas;
+export const camera = factor.camera;
+export const sounds = factor.sounds;
+export const gltfLoader = factor.gltfLoader;
+export const textureLoader = factor.textureLoader;
