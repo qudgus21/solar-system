@@ -8,9 +8,11 @@ export class Planet {
     this.path = info.path;
     this.radius = info.radius;
     this.particle = info.particle;
-    this.distanceX = info.distanceX || 0;
-    this.distanceY = info.distanceY || 0;
-    this.distanceZ = info.distanceZ || 0;
+    this.distanceX = info.distanceX;
+    this.distanceY = info.distanceY;
+    this.distanceZ = info.distanceZ;
+    this.rotationOffset = info.rotationOffset;
+    this.orbitOffset = info.orbitOffset;
 
     //geometry
     this.geometry = new THREE.SphereGeometry(
@@ -29,21 +31,21 @@ export class Planet {
 
     //mesh
     this.mesh = new THREE.Mesh(this.geometry, this.material);
-    this.mesh.position.x += this.distanceX;
-    this.mesh.position.x += this.distanceX;
-    this.mesh.position.x += this.distanceX;
+    this.mesh.position.x = this.distanceX || this.mesh.position.x;
+    this.mesh.position.y = this.distanceY || this.mesh.position.y;
+    this.mesh.position.z = this.distanceZ || this.mesh.position.z;
     this.mesh.name = this.name;
     scene.add(this.mesh);
 
     //자전
     this.planetRotation = (offset) => {
-      this.mesh.rotation.y += offset || 0.001;
+      this.mesh.rotation.y += offset;
     };
 
     //공전
     this.planetOrbit = (elapsed, offset) => {
-      this.mesh.position.x = Math.cos(elapsed / offset || 20) * 15;
-      this.mesh.position.z = Math.sin(elapsed / offset || 20) * 15;
+      this.mesh.position.x = Math.cos(elapsed / offset) * this.distanceX;
+      this.mesh.position.z = Math.sin(elapsed / offset) * this.distanceX;
     };
   }
 }

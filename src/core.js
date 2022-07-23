@@ -43,9 +43,10 @@ const initialize = () => {
       0.1,
       1000
     );
-    camera.position.z = 10;
+    // camera.position.y = 10;
+    camera.position.z = 100;
+    camera.position.y = 100;
 
-    // camera.position.z = 10;
     factor.camera = camera;
   };
 
