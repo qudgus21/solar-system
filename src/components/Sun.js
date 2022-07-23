@@ -1,26 +1,12 @@
 import * as THREE from "three";
+import { Planet } from "./Planet";
 import { scene, textureLoader } from "../core";
 
-export class Sun {
+export class Sun extends Planet {
   constructor(info) {
-    //geometry
-    this.geometry = new THREE.SphereGeometry(
-      info.radius,
-      info.particle,
-      info.particle
-    );
-
-    //material
-    this.texture = textureLoader.load(info.path);
-    this.material = new THREE.MeshStandardMaterial({
-      side: THREE.DoubleSide,
-      flatShading: true,
-      map: this.texture,
-    });
-
+    super(info);
     //position
     this.positionArray = this.geometry.attributes.position.array;
-
     this.randomArray = [];
     for (let i = 0; i < this.positionArray.length; i += 3) {
       this.positionArray[i] =
@@ -34,9 +20,17 @@ export class Sun {
       this.randomArray[i + 2] = (Math.random() - 0.5) * 0.2;
     }
 
-    //mesh
-    this.mesh = new THREE.Mesh(this.geometry, this.material);
-
-    scene.add(this.mesh);
+    //animation
+    this.sunSurfaceAnimation = (elapsed) => {
+      for (let i = 0; i < this.positionArray.length; i += 3) {
+        this.positionArray[i] +=
+          Math.sin(elapsed + this.randomArray[i] * 200) * 0.002;
+        this.positionArray[i + 1] +=
+          Math.sin(elapsed + this.randomArray[i] * 200) * 0.002;
+        this.positionArray[i + 2] +=
+          Math.sin(elapsed + this.randomArray[i] * 200) * 0.002;
+      }
+      this.geometry.attributes.position.needsUpdate = true;
+    };
   }
 }

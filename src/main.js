@@ -1,9 +1,20 @@
 import * as THREE from "three";
 import { Particle } from "./components/Particle";
 import { Sun } from "./components/Sun";
-import { canvas, scene, renderer, camera, sounds, clock } from "./core";
+import { Planet } from "./components/Planet";
+
+import {
+  canvas,
+  scene,
+  renderer,
+  camera,
+  sounds,
+  clock,
+  gltfLoader,
+} from "./core";
 import gsap from "gsap";
 
+// 마지막에 추가
 // setTimeout(() => {
 //   gsap.to(camera.position, {
 //     duration: 2,
@@ -13,33 +24,41 @@ import gsap from "gsap";
 
 const particle = new Particle({
   path: "images/particle.png",
-  count: 6000,
-  spread: 150,
+  count: 10000,
+  spread: 250,
 });
 
 const sun = new Sun({
+  name: "sun",
   path: "textures/sun.png",
   radius: 5,
   particle: 40,
 });
 
-const sunSurfaceAnimation = (delta) => {
-  const elapsed = clock.getElapsedTime() * 3;
-  for (let i = 0; i < sun.positionArray.length; i += 3) {
-    sun.positionArray[i] +=
-      Math.sin(elapsed + sun.randomArray[i] * 200) * 0.002;
-    sun.positionArray[i + 1] +=
-      Math.sin(elapsed + sun.randomArray[i] * 200) * 0.002;
-    sun.positionArray[i + 2] +=
-      Math.sin(elapsed + sun.randomArray[i] * 200) * 0.002;
-  }
-  sun.geometry.attributes.position.needsUpdate = true;
-  sun.mesh.rotation.y += delta * 0.1; //추후 자전 공전으로 함수 분리
-};
+const mercury = new Planet({
+  name: "mercury",
+  path: "textures/mercury.jpeg",
+  radius: 1.5,
+  particle: 30,
+  distanceX: 15,
+});
+
+const planets = [];
+planets.push(mercury);
 
 const draw = () => {
+  const elapsed = clock.getElapsedTime() * 3;
   const delta = clock.getDelta();
-  sunSurfaceAnimation(delta);
+
+  if (sun.mesh) {
+    sun.sunSurfaceAnimation(elapsed);
+    sun.planetRotation(0.0005);
+  }
+
+  if (mercury.mesh) {
+    mercury.planetRotation(0.001);
+    mercury.planetOrbit(elapsed, 20);
+  }
 
   renderer.render(scene, camera);
   renderer.setAnimationLoop(draw);

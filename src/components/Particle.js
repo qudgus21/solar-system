@@ -21,7 +21,7 @@ export class Particle {
     //material
     this.particleTexture = new THREE.TextureLoader().load(this.path);
     this.material = new THREE.PointsMaterial({
-      size: 0.1,
+      size: 0.2,
       color: "white",
       map: this.particleTexture,
       transparent: true,
