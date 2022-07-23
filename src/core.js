@@ -10,6 +10,7 @@ const factor = {
   sounds,
   gltfLoader,
   textureLoader,
+  clock,
 };
 
 const initialize = () => {
@@ -31,6 +32,8 @@ const initialize = () => {
 
     const gridHelper = new THREE.GridHelper(5);
     scene.add(gridHelper);
+
+    factor.clock = new THREE.Clock();
   };
 
   const initializeCamera = () => {
@@ -104,3 +107,4 @@ export const camera = factor.camera;
 export const sounds = factor.sounds;
 export const gltfLoader = factor.gltfLoader;
 export const textureLoader = factor.textureLoader;
+export const clock = factor.clock;
