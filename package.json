@@ -27,6 +27,7 @@
     "core-js": "^3.23.5",
     "cross-env": "^7.0.3",
     "html-webpack-plugin": "^5.5.0",
+    "mini-css-extract-plugin": "^2.6.1",
     "source-map-loader": "^4.0.0",
     "terser-webpack-plugin": "^5.3.3",
     "webpack": "^5.73.0",
@@ -35,6 +36,7 @@
   },
   "dependencies": {
     "dat.gui": "^0.7.9",
+    "file-loader": "^6.2.0",
     "gsap": "^3.10.4",
     "three": "^0.142.0"
   }
