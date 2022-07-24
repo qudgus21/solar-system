@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { PreventDragClick } from "../helpers/PreventDragClick";
 
 const factor = {
   canvas,
@@ -11,6 +12,7 @@ const factor = {
   gltfLoader,
   textureLoader,
   clock,
+  preventDragClick,
 };
 
 const initialize = () => {
@@ -32,8 +34,10 @@ const initialize = () => {
 
     // const gridHelper = new THREE.GridHelper(5);
     // scene.add(gridHelper);
-
+    factor.mouse = new THREE.Vector2();
+    factor.raycaster = new THREE.Raycaster();
     factor.clock = new THREE.Clock();
+    factor.preventDragClick = new PreventDragClick(canvas);
   };
 
   const initializeCamera = () => {
@@ -90,7 +94,6 @@ const initialize = () => {
     factor.textureLoader = new THREE.TextureLoader();
   };
 
-  initializeHelper();
   initializeSound();
   initializeCamera();
   initializeLight();
@@ -98,6 +101,7 @@ const initialize = () => {
   initializeRenderer();
   initializeLoader();
   initializeEvents();
+  initializeHelper();
 };
 
 initialize();
@@ -110,3 +114,6 @@ export const sounds = factor.sounds;
 export const gltfLoader = factor.gltfLoader;
 export const textureLoader = factor.textureLoader;
 export const clock = factor.clock;
+export const mouse = factor.mouse;
+export const raycaster = factor.raycaster;
+export const preventDragClick = factor.preventDragClick;
