@@ -90,8 +90,26 @@ const initialize = () => {
   };
 
   const initializeLoader = () => {
+    const loadingManager = new THREE.LoadingManager();
+
     factor.gltfLoader = new GLTFLoader();
-    factor.textureLoader = new THREE.TextureLoader();
+    factor.textureLoader = new THREE.TextureLoader(loadingManager);
+
+    const $loading = document.querySelector(".loading");
+
+    loadingManager.onStart = () => {};
+
+    loadingManager.onProgress = () => {};
+
+    loadingManager.onLoad = () => {
+      // 마지막에 추가
+      // setTimeout(() => {
+      //   $loading.style.display = "none";
+      // }, 1000);
+      $loading.style.display = "none";
+    };
+
+    loadingManager.onError = () => {};
   };
 
   initializeSound();
