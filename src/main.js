@@ -11,15 +11,6 @@ import {
   raycaster,
   preventDragClick,
 } from "./objects/core";
-import gsap from "gsap";
-
-// 마지막에 추가
-// setTimeout(() => {
-//   gsap.to(camera.position, {
-//     duration: 2,
-//     z: 60,
-//   });
-// }, 1500);
 
 //추후 분리
 const global = {

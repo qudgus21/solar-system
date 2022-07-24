@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { PreventDragClick } from "../helpers/PreventDragClick";
+import gsap from "gsap";
 
 const factor = {
   canvas,
@@ -104,6 +105,20 @@ const initialize = () => {
     $c1.style.animationPlayState = "paused";
     $c2.style.animationPlayState = "paused";
     $c3.style.animationPlayState = "paused";
+    $startBtn.style.animationPlayState = "paused";
+    //완료 시 삭제
+    // $loading.style.display = "none";
+
+    //편법인데..
+    gsap.to(camera.position, {
+      duration: 2,
+      z: 10,
+      y: 0,
+      onUpdate: () => {
+        camera.lookAt(0, 0, 0);
+      },
+    });
+
     loadingManager.onStart = () => {};
 
     loadingManager.onProgress = () => {};
@@ -115,17 +130,30 @@ const initialize = () => {
         $c1.style.animationPlayState = "running";
         $c2.style.animationPlayState = "running";
         $c3.style.animationPlayState = "running";
+        $startBtn.style.animationPlayState = "running";
+
         $startBtn.addEventListener("click", () => {
-          $loading.style.display = "none";
+          $loading.remove();
+
+          setTimeout(() => {
+            gsap.to(camera.position, {
+              duration: 2,
+              z: 100,
+              y: 100,
+              onUpdate: () => {
+                camera.lookAt(0, 0, 0);
+              },
+            });
+          }, 2500);
         });
-      }, 1000);
+      }, 1500);
     };
 
     loadingManager.onError = () => {};
   };
 
-  initializeSound();
   initializeCamera();
+  initializeSound();
   initializeLight();
   initializeControl();
   initializeRenderer();
