@@ -27,11 +27,11 @@ const initialize = () => {
   factor.renderer = renderer;
 
   const initializeHelper = () => {
-    const axesHelper = new THREE.AxesHelper(3);
-    scene.add(axesHelper);
+    // const axesHelper = new THREE.AxesHelper(3);
+    // scene.add(axesHelper);
 
-    const gridHelper = new THREE.GridHelper(5);
-    scene.add(gridHelper);
+    // const gridHelper = new THREE.GridHelper(5);
+    // scene.add(gridHelper);
 
     factor.clock = new THREE.Clock();
   };
@@ -57,6 +57,7 @@ const initialize = () => {
 
   const initializeControl = () => {
     const controls = new OrbitControls(camera, renderer.domElement);
+    controls.maxDistance = 240;
   };
 
   const initializeRenderer = () => {
