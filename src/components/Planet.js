@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import gsap from "gsap";
 import { camera, clock, scene, textureLoader } from "../objects/core";
-import { sun } from "../objects/meshe";
+import { sun } from "../objects/mesh";
 
 export class Planet {
   constructor(info) {
@@ -60,7 +60,7 @@ export class Planet {
           ) *
           this.distanceX *
           1.2,
-        y: this.mesh.position.y,
+        y: this.mesh.position.y + 5,
         z:
           Math.sin(
             (clock.getElapsedTime() * 3 + offset * 3) / this.orbitOffset
@@ -77,7 +77,7 @@ export class Planet {
     this.planetTowerdsSun = (time) => {
       camera.position.x =
         Math.cos(time / this.orbitOffset) * this.distanceX * 1.2;
-      camera.position.y = this.mesh.position.y;
+      camera.position.y = this.mesh.position.y + 5;
       camera.position.z =
         Math.sin(time / this.orbitOffset) * this.distanceX * 1.2;
       camera.lookAt(

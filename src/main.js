@@ -1,5 +1,6 @@
 import * as THREE from "three";
-import { sun, planets } from "./objects/meshe";
+import { sun, planets } from "./objects/mesh";
+import { mercury } from "./objects/orbit";
 import {
   canvas,
   scene,
