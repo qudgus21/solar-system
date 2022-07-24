@@ -76,10 +76,14 @@ const initialize = () => {
 
   const initializeSound = () => {
     const fireSound = new Audio();
+    const spaceBgm = new Audio();
+
     fireSound.src = "/sounds/fire.mp3";
+    spaceBgm.src = "/sounds/space.mp3";
 
     factor.sounds = {
       fire: fireSound,
+      space: spaceBgm,
     };
   };
 
@@ -106,8 +110,6 @@ const initialize = () => {
     $c2.style.animationPlayState = "paused";
     $c3.style.animationPlayState = "paused";
     $startBtn.style.animationPlayState = "paused";
-    //완료 시 삭제
-    // $loading.style.display = "none";
 
     //편법인데..
     gsap.to(camera.position, {
@@ -135,6 +137,12 @@ const initialize = () => {
         $startBtn.addEventListener("click", () => {
           $loading.remove();
 
+          factor.sounds.fire.play();
+          setTimeout(() => {
+            factor.sounds.fire.pause();
+            factor.sounds.space.play();
+          }, 3500);
+
           setTimeout(() => {
             gsap.to(camera.position, {
               duration: 2,
@@ -144,7 +152,7 @@ const initialize = () => {
                 camera.lookAt(0, 0, 0);
               },
             });
-          }, 2500);
+          }, 3500);
         });
       }, 1500);
     };
