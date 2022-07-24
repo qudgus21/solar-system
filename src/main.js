@@ -1,17 +1,7 @@
 import * as THREE from "three";
-import { Particle } from "./components/Particle";
-import { Sun } from "./components/Sun";
-import { Planet } from "./components/Planet";
-
-import {
-  canvas,
-  scene,
-  renderer,
-  camera,
-  sounds,
-  clock,
-  gltfLoader,
-} from "./core";
+import { sun, planets } from "./objects/meshe";
+import { PreventDragClick } from "./helpers/PreventDragClick";
+import { canvas, scene, renderer, camera, clock } from "./objects/core";
 import gsap from "gsap";
 
 // 마지막에 추가
@@ -22,104 +12,55 @@ import gsap from "gsap";
 //   });
 // }, 1500);
 
-const planets = [];
+const preventDragClick = new PreventDragClick(canvas);
 
-const particle = new Particle({
-  path: "images/particle.png",
-  count: 10000,
-  spread: 260,
-});
+//행성 클릭
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+let clickedPlanet;
 
-const sun = new Sun({
-  name: "sun",
-  path: "textures/sun.png",
-  radius: 5,
-  particle: 40,
-});
+function checkIntersects() {
+  if (preventDragClick.mouseMoved) return;
+  if (clickedPlanet) return;
 
-const mercury = new Planet({
-  name: "mercury",
-  path: "textures/mercury.jpeg",
-  radius: 1.5,
-  particle: 32,
-  distanceX: 15,
-  distanceZ: 15,
-  rotationOffset: 0.008,
-  orbitOffset: 5,
-});
+  raycaster.setFromCamera(mouse, camera);
 
-const venus = new Planet({
-  name: "venus",
-  path: "textures/venus.jpeg",
-  radius: 2,
-  particle: 32,
-  distanceX: -30,
-  distanceZ: 15,
-  rotationOffset: 0.009,
-  orbitOffset: 10,
-});
+  const intersects = raycaster.intersectObjects(
+    planets.map((planet) => {
+      return planet.mesh;
+    })
+  );
 
-const earth = new Planet({
-  name: "earth",
-  path: "textures/earth.jpeg",
-  radius: 2,
-  particle: 32,
-  distanceX: 45,
-  rotationOffset: 0.009,
-  orbitOffset: 20,
-});
+  for (const item of intersects) {
+    let temp = planets.find((planet) => planet.name === item.object.name);
 
-const mars = new Planet({
-  name: "mars",
-  path: "textures/mars.jpeg",
-  radius: 2,
-  particle: 32,
-  distanceX: -60,
-  rotationOffset: 0.009,
-  orbitOffset: 28,
-});
+    gsap.to(camera.position, {
+      duration: 2,
+      x:
+        Math.cos((clock.getElapsedTime() * 3 + 6) / temp.orbitOffset) *
+        temp.distanceX *
+        1.2,
+      y: item.object.position.y,
+      z:
+        Math.sin((clock.getElapsedTime() * 3 + 6) / temp.orbitOffset) *
+        temp.distanceX *
+        1.2,
+      onUpdate: () => {
+        camera.lookAt(0, 0, 0);
+      },
+    });
 
-const jupiter = new Planet({
-  name: "jupiter",
-  path: "textures/jupiter.jpeg",
-  radius: 2,
-  particle: 32,
-  distanceX: 80,
-  rotationOffset: 0.013,
-  orbitOffset: 38,
-});
+    // clickedPlanet = item.object;
 
-const saturn = new Planet({
-  name: "saturn",
-  path: "textures/saturn.png",
-  radius: 2,
-  particle: 32,
-  distanceX: -105,
-  rotationOffset: 13,
-  orbitOffset: 60,
-});
+    setTimeout(() => {
+      clickedPlanet = planets.find(
+        (planet) => planet.name === item.object.name
+      );
+    }, 2000);
 
-const uranus = new Planet({
-  name: "uranus",
-  path: "textures/uranus.jpeg",
-  radius: 2,
-  particle: 32,
-  distanceX: 145,
-  rotationOffset: 0.009,
-  orbitOffset: 80,
-});
-
-const neptune = new Planet({
-  name: "neptune",
-  path: "textures/neptune.jpeg",
-  radius: 2,
-  particle: 32,
-  distanceX: -170,
-  rotationOffset: 0.01,
-  orbitOffset: 100,
-});
-
-planets.push(mercury, venus, earth, mars, jupiter, saturn, uranus, neptune);
+    break;
+  }
+}
 
 const draw = () => {
   const elapsed = clock.getElapsedTime() * 3;
@@ -136,8 +77,34 @@ const draw = () => {
     }
   });
 
+  if (clickedPlanet) {
+    camera.position.x =
+      Math.cos(elapsed / clickedPlanet.orbitOffset) *
+      clickedPlanet.distanceX *
+      1.2;
+    camera.position.y = clickedPlanet.mesh.position.y;
+    camera.position.z =
+      Math.sin(elapsed / clickedPlanet.orbitOffset) *
+      clickedPlanet.distanceX *
+      1.2;
+    camera.lookAt(
+      sun.mesh.position.x,
+      sun.mesh.position.y,
+      sun.mesh.position.z
+    );
+  }
+
+  // this.mesh.position.x = Math.cos(elapsed / offset) * this.distanceX;
+  // this.mesh.position.z = Math.sin(elapsed / offset) * this.distanceX;
+
   renderer.render(scene, camera);
   renderer.setAnimationLoop(draw);
 };
 
 draw();
+
+canvas.addEventListener("click", (e) => {
+  mouse.x = (e.clientX / canvas.clientWidth) * 2 - 1;
+  mouse.y = -((e.clientY / canvas.clientHeight) * 2 - 1);
+  checkIntersects();
+});

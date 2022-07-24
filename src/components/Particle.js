@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { scene } from "../core";
+import { scene } from "../objects/core";
 
 export class Particle {
   constructor(info) {

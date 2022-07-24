@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { scene, textureLoader } from "../core";
+import { scene, textureLoader } from "../objects/core";
 
 export class Planet {
   constructor(info) {

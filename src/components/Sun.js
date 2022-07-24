@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { Planet } from "./Planet";
-import { scene, textureLoader } from "../core";
+import { scene, textureLoader } from "../objects/core";
 
 export class Sun extends Planet {
   constructor(info) {
