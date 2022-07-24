@@ -19,6 +19,18 @@ canvas {
   background-color:#16161a;  
 }
 
+.start-btn{
+  /* display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white; */
+  position:relative;
+  top:calc(50vh -  70px);
+  font-size: 35px;
+
+  
+}
+
 
 .text {
   display: flex;
@@ -122,19 +134,16 @@ canvas {
   background-color:#7f5af0;
 }
 
-
-
 @keyFrames rotate{
-  
-  /* from{
+  from{
     transform:rotate(360deg);
   }
   to{
     transform:rotate(0deg);
-  } */
+  }
 }
 
-/* .circle:hover{
+.circle:hover{
   width:120px;
   height:120px;
   top:calc(50% - 60px);
@@ -147,4 +156,44 @@ canvas {
 {
   border:2px solid #ccc;
   padding:-1px;
-} */
+}
+
+.start-btn{
+  display: none;
+}
+
+.start-btn button {
+  /* to make button in center to screen */
+  margin-top: 30px;
+  cursor: pointer;
+  position:absolute;
+  top: 80%;
+  left:50%;
+  transform: translate(-50%,-50%);
+  /* finish csnter */
+  background: #C9085F;
+  border: none;
+  width:150px;
+  height:50px;
+  color:#FFF;
+  text-transform:uppercase;
+  letter-spacing:10px;
+  border-radius: 20px;
+  animation: pulse 2s linear infinite;
+  font-weight: bold;
+  font-size: 15px;
+}
+@keyframes pulse {
+  0%{
+      box-shadow: 0 0 0 0 rgba(201,8,95,0.8), 0 0 0 0 rgba(201,8,95,0.5)
+  }
+  40%{
+      box-shadow: 0 0 0 70px rgba(201,8,95,0), 0 0 0 30px rgba(201,8,95,0)
+  }
+  80%{
+      box-shadow: 0 0 0 70px rgba(201,8,95,0), 0 0 0 30px rgba(201,8,95,0)
+  }
+  100%{
+      box-shadow: 0 0 0 0 rgba(201,8,95,0), 0 0 0 40px rgba(201,8,95,0)
+  }
+}

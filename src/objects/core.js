@@ -96,17 +96,29 @@ const initialize = () => {
     factor.textureLoader = new THREE.TextureLoader(loadingManager);
 
     const $loading = document.querySelector(".loading");
-
+    const $startBtn = document.querySelector(".start-btn");
+    const $loadingText = document.querySelector(".loading .text");
+    const $c1 = document.querySelector(".loading .f-circle");
+    const $c2 = document.querySelector(".loading .s-circle");
+    const $c3 = document.querySelector(".loading .t-circle");
+    $c1.style.animationPlayState = "paused";
+    $c2.style.animationPlayState = "paused";
+    $c3.style.animationPlayState = "paused";
     loadingManager.onStart = () => {};
 
     loadingManager.onProgress = () => {};
 
     loadingManager.onLoad = () => {
-      // 마지막에 추가
-      // setTimeout(() => {
-      //   $loading.style.display = "none";
-      // }, 1000);
-      $loading.style.display = "none";
+      setTimeout(() => {
+        $loadingText.style.visibility = "hidden";
+        $startBtn.style.display = "block";
+        $c1.style.animationPlayState = "running";
+        $c2.style.animationPlayState = "running";
+        $c3.style.animationPlayState = "running";
+        $startBtn.addEventListener("click", () => {
+          $loading.style.display = "none";
+        });
+      }, 1000);
     };
 
     loadingManager.onError = () => {};
