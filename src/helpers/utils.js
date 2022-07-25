@@ -20,6 +20,7 @@ export const showSoundIcon = () => {
 
 export const cameraZoomout = () => {
   state.clickedPlanet = undefined;
+  state.clickedSun = undefined;
 
   gsap.to(camera.position, {
     duration: 2,
@@ -44,9 +45,10 @@ export const toogleSound = (e) => {
 };
 
 export const zoominToSun = () => {
-  showBackBtn();
+  state.clickedPlanet = undefined;
+
   gsap.to(camera.position, {
-    duration: 2,
+    duration: 1.5,
     z: 10,
     y: 0,
     x: 0,
@@ -55,6 +57,7 @@ export const zoominToSun = () => {
     },
     onComplete: () => {
       sounds.fire.play();
+      showBackBtn();
     },
   });
 };

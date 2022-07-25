@@ -37,13 +37,15 @@ const reachRayToPlanet = () => {
 
   let offset = 2;
 
-  if (checkedSun.length) {
+  if (checkedSun.length && !state.clickedPlanet) {
     state.clickedSun = checkedSun[0].object;
     zoominToSun();
     return;
   }
 
   for (const mesh of checkedAllPlanetMeshes) {
+    if (state.clickedSun) return;
+
     let firstCheckedPlanet = planets.find(
       (planet) => planet.name === mesh.object.name
     );
@@ -76,7 +78,6 @@ const draw = () => {
   });
 
   if (state.clickedPlanet) {
-    console.log(state.clickedPlanet);
     state.clickedPlanet.planetTowerdsSun(elapsed);
   }
 
