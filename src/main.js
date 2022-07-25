@@ -11,7 +11,6 @@ import {
   preventDragClick,
 } from "./objects/core";
 import { state } from "./global";
-import { zoominToSun } from "./helpers/utils";
 
 const shootRaycaster = (e) => {
   if (preventDragClick.mouseMoved) return;
@@ -39,7 +38,7 @@ const reachRayToPlanet = () => {
 
   if (checkedSun.length && !state.clickedPlanet) {
     state.clickedSun = checkedSun[0].object;
-    zoominToSun();
+    sun.zoominToSun();
     return;
   }
 
@@ -88,5 +87,7 @@ const draw = () => {
 draw();
 
 canvas.addEventListener("click", (e) => {
-  shootRaycaster(e);
+  if (state.isLoad) {
+    shootRaycaster(e);
+  }
 });

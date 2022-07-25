@@ -9,6 +9,7 @@ import {
   toogleSound,
 } from "../helpers/utils";
 import gsap from "gsap";
+import { state } from "../global";
 
 const factor = {
   canvas,
@@ -163,6 +164,7 @@ const initialize = () => {
 
           setTimeout(() => {
             cameraZoomout();
+            state.isLoad = true;
           }, 3500);
         });
       }, 1500);

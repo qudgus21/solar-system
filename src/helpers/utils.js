@@ -43,21 +43,3 @@ export const toogleSound = (e) => {
     e.target.src = "/images/volume.png";
   }
 };
-
-export const zoominToSun = () => {
-  state.clickedPlanet = undefined;
-
-  gsap.to(camera.position, {
-    duration: 1.5,
-    z: 10,
-    y: 0,
-    x: 0,
-    onUpdate: () => {
-      camera.lookAt(0, 0, 0);
-    },
-    onComplete: () => {
-      sounds.fire.play();
-      showBackBtn();
-    },
-  });
-};

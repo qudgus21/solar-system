@@ -1,6 +1,9 @@
 import * as THREE from "three";
 import { Planet } from "./Planet";
-import { scene, textureLoader } from "../objects/core";
+import { sounds, camera } from "../objects/core";
+import { state } from "../global";
+import { showBackBtn } from "../helpers/utils";
+import gsap from "gsap";
 
 export class Sun extends Planet {
   constructor(info) {
@@ -31,6 +34,24 @@ export class Sun extends Planet {
           Math.sin(elapsed + this.randomArray[i] * 200) * 0.002;
       }
       this.geometry.attributes.position.needsUpdate = true;
+    };
+
+    this.zoominToSun = () => {
+      state.clickedPlanet = undefined;
+
+      gsap.to(camera.position, {
+        duration: 1.5,
+        z: 10,
+        y: 0,
+        x: 0,
+        onUpdate: () => {
+          camera.lookAt(0, 0, 0);
+        },
+        onComplete: () => {
+          sounds.fire.play();
+          showBackBtn();
+        },
+      });
     };
   }
 }
