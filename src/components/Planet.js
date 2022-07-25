@@ -2,6 +2,7 @@ import * as THREE from "three";
 import gsap from "gsap";
 import { camera, clock, scene, textureLoader } from "../objects/core";
 import { sun } from "../objects/mesh";
+import { showBackBtn } from "../helpers/utils";
 
 export class Planet {
   constructor(info) {
@@ -69,6 +70,9 @@ export class Planet {
           1.2,
         onUpdate: () => {
           camera.lookAt(0, 0, 0);
+        },
+        onComplete: () => {
+          showBackBtn();
         },
       });
     };

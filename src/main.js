@@ -1,6 +1,5 @@
-import * as THREE from "three";
-import { sun, planets } from "./objects/mesh";
 import { mercury } from "./objects/orbit";
+import { sun, planets } from "./objects/mesh";
 import {
   canvas,
   scene,
@@ -11,11 +10,7 @@ import {
   raycaster,
   preventDragClick,
 } from "./objects/core";
-
-//추후 분리
-const global = {
-  clickedPlanet: undefined,
-};
+import { state } from "./global";
 
 const shootRaycaster = (e) => {
   if (preventDragClick.mouseMoved) return;
@@ -29,7 +24,7 @@ const shootRaycaster = (e) => {
 };
 
 const reachRayToPlanet = () => {
-  if (global.clickedPlanet) return;
+  if (state.clickedPlanet) return;
 
   const checkedAllPlanetMeshes = raycaster.intersectObjects(
     planets.map((planet) => {
@@ -46,7 +41,7 @@ const reachRayToPlanet = () => {
     firstCheckedPlanet.animateCameraToPlanet(offset);
 
     setTimeout(() => {
-      global.clickedPlanet = planets.find(
+      state.clickedPlanet = planets.find(
         (planet) => planet.name === mesh.object.name
       );
     }, offset * 1000);
@@ -70,8 +65,8 @@ const draw = () => {
     }
   });
 
-  if (global.clickedPlanet) {
-    global.clickedPlanet.planetTowerdsSun(elapsed);
+  if (state.clickedPlanet) {
+    state.clickedPlanet.planetTowerdsSun(elapsed);
   }
 
   renderer.render(scene, camera);

@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { PreventDragClick } from "../helpers/PreventDragClick";
+import { hiddenBackBtn, cameraZoomout } from "../helpers/utils";
 import gsap from "gsap";
 
 const factor = {
@@ -72,6 +73,12 @@ const initialize = () => {
 
   const initializeEvents = () => {
     window.addEventListener("resize", setSize);
+
+    const $backBtn = document.querySelector(".back-btn");
+    $backBtn.addEventListener("click", () => {
+      hiddenBackBtn();
+      cameraZoomout();
+    });
   };
 
   const initializeSound = () => {

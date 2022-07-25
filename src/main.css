@@ -19,6 +19,21 @@ canvas {
   background-color:#16161a;  
 }
 
+.back-btn {
+  visibility: hidden;
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  color: white;
+  font-weight: bold;
+  z-index: 1;
+  border-radius: 20px;
+  border: 2px solid white;
+  cursor: pointer;
+  padding: 7px 10px;
+}
+
+
 .start-btn{
   /* display: flex;
   align-items: center;
