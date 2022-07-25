@@ -11,6 +11,7 @@ import {
   preventDragClick,
 } from "./objects/core";
 import { state } from "./global";
+import { zoominToSun } from "./helpers/utils";
 
 const shootRaycaster = (e) => {
   if (preventDragClick.mouseMoved) return;
@@ -32,11 +33,20 @@ const reachRayToPlanet = () => {
     })
   );
 
+  const checkedSun = raycaster.intersectObjects([sun.mesh]);
+
+  let offset = 2;
+
+  if (checkedSun.length) {
+    state.clickedSun = checkedSun[0].object;
+    zoominToSun();
+    return;
+  }
+
   for (const mesh of checkedAllPlanetMeshes) {
     let firstCheckedPlanet = planets.find(
       (planet) => planet.name === mesh.object.name
     );
-    let offset = 2;
 
     firstCheckedPlanet.animateCameraToPlanet(offset);
 
@@ -66,6 +76,7 @@ const draw = () => {
   });
 
   if (state.clickedPlanet) {
+    console.log(state.clickedPlanet);
     state.clickedPlanet.planetTowerdsSun(elapsed);
   }
 

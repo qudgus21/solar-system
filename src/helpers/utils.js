@@ -9,6 +9,7 @@ export const showBackBtn = () => {
 
 export const hiddenBackBtn = () => {
   const $backBtn = document.querySelector(".back-btn");
+  sounds.fire.pause();
   $backBtn.style.visibility = "hidden";
 };
 
@@ -40,4 +41,20 @@ export const toogleSound = (e) => {
     sounds.space.play();
     e.target.src = "/images/volume.png";
   }
+};
+
+export const zoominToSun = () => {
+  showBackBtn();
+  gsap.to(camera.position, {
+    duration: 2,
+    z: 10,
+    y: 0,
+    x: 0,
+    onUpdate: () => {
+      camera.lookAt(0, 0, 0);
+    },
+    onComplete: () => {
+      sounds.fire.play();
+    },
+  });
 };
