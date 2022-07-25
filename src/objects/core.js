@@ -154,11 +154,14 @@ const initialize = () => {
         $startBtn.addEventListener("click", () => {
           $loading.remove();
           showSoundIcon();
-
-          factor.sounds.fire.play();
+          if (state.isSound) {
+            factor.sounds.fire.play();
+          }
           setTimeout(() => {
             factor.sounds.fire.pause();
-            factor.sounds.space.play();
+            if (state.isSound) {
+              factor.sounds.space.play();
+            }
             factor.sounds.space.loop = true;
           }, 3500);
 

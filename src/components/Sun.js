@@ -48,7 +48,9 @@ export class Sun extends Planet {
           camera.lookAt(0, 0, 0);
         },
         onComplete: () => {
-          sounds.fire.play();
+          if (state.isSound) {
+            sounds.fire.play();
+          }
           showBackBtn();
         },
       });

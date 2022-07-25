@@ -34,11 +34,14 @@ export const cameraZoomout = () => {
 
 export const toogleSound = (e) => {
   const soundState = e.target.src.split("/").pop().split(".")[0];
-  if (soundState === "volume") {
+
+  if (state.isSound) {
+    state.isSound = false;
     sounds.space.pause();
     sounds.fire.pause();
     e.target.src = "/images/mute.png";
   } else {
+    state.isSound = true;
     sounds.space.play();
     e.target.src = "/images/volume.png";
   }
