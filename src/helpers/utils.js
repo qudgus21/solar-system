@@ -1,4 +1,4 @@
-import { camera } from "../objects/core";
+import { camera, sounds } from "../objects/core";
 import gsap from "gsap";
 import { state } from "../global";
 
@@ -12,6 +12,11 @@ export const hiddenBackBtn = () => {
   $backBtn.style.visibility = "hidden";
 };
 
+export const showSoundIcon = () => {
+  const $soundIcon = document.querySelector(".sound-wrapper");
+  $soundIcon.style.visibility = "visible";
+};
+
 export const cameraZoomout = () => {
   state.clickedPlanet = undefined;
 
@@ -23,4 +28,16 @@ export const cameraZoomout = () => {
       camera.lookAt(0, 0, 0);
     },
   });
+};
+
+export const toogleSound = (e) => {
+  const soundState = e.target.src.split("/").pop().split(".")[0];
+  if (soundState === "volume") {
+    sounds.space.pause();
+    sounds.fire.pause();
+    e.target.src = "/images/mute.png";
+  } else {
+    sounds.space.play();
+    e.target.src = "/images/volume.png";
+  }
 };

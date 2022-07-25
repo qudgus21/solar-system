@@ -2,7 +2,12 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { PreventDragClick } from "../helpers/PreventDragClick";
-import { hiddenBackBtn, cameraZoomout } from "../helpers/utils";
+import {
+  hiddenBackBtn,
+  cameraZoomout,
+  showSoundIcon,
+  toogleSound,
+} from "../helpers/utils";
 import gsap from "gsap";
 
 const factor = {
@@ -49,7 +54,6 @@ const initialize = () => {
       0.1,
       1000
     );
-    // camera.position.y = 10;
     camera.position.z = 100;
     camera.position.y = 100;
 
@@ -78,6 +82,11 @@ const initialize = () => {
     $backBtn.addEventListener("click", () => {
       hiddenBackBtn();
       cameraZoomout();
+    });
+
+    const $soundIcon = document.querySelector(".sound-wrapper");
+    $soundIcon.addEventListener("click", (e) => {
+      toogleSound(e);
     });
   };
 
@@ -143,22 +152,17 @@ const initialize = () => {
 
         $startBtn.addEventListener("click", () => {
           $loading.remove();
+          showSoundIcon();
 
           factor.sounds.fire.play();
           setTimeout(() => {
             factor.sounds.fire.pause();
             factor.sounds.space.play();
+            factor.sounds.space.loop = true;
           }, 3500);
 
           setTimeout(() => {
-            gsap.to(camera.position, {
-              duration: 2,
-              z: 100,
-              y: 100,
-              onUpdate: () => {
-                camera.lookAt(0, 0, 0);
-              },
-            });
+            cameraZoomout();
           }, 3500);
         });
       }, 1500);

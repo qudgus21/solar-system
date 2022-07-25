@@ -19,6 +19,20 @@ canvas {
   background-color:#16161a;  
 }
 
+.sound-wrapper {
+  visibility: hidden;
+  z-index: 1;
+  position: absolute;
+  top: 30px;
+  right: 30px;
+}
+
+.sound-wrapper img {
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+}
+
 .back-btn {
   visibility: hidden;
   position: absolute;
@@ -42,8 +56,6 @@ canvas {
   position:relative;
   top:calc(50vh -  70px);
   font-size: 35px;
-
-  
 }
 
 
