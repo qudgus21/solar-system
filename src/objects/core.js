@@ -128,7 +128,6 @@ const initialize = () => {
     $c3.style.animationPlayState = "paused";
     $startBtn.style.animationPlayState = "paused";
 
-    //편법인데..
     gsap.to(camera.position, {
       duration: 2,
       z: 10,
